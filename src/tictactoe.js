@@ -1,4 +1,3 @@
-
 function createBoard() {
     tiles = [
         // [1, 2, 3],
@@ -9,83 +8,67 @@ function createBoard() {
         [0, 0, 0],
     ];
 
-    function markTile(row, col, user) {
-        // return board[row][col];
-        const tileValue = tiles[row][col];
-        const emptyTileValue = 0;
-
-        if (tileValue === user.id) {
-            return "you already marked this tile";
-        }
-
-        if (tileValue !== emptyTileValue) {
-            return "this tile has been marked by a different player";
-        }
-
-        tiles[row][col] = user.id;
-        win = checkWinCondition(user.id);
-        return "update successful";
-    }
 
     function checkWinCondition(userId) {
-        board.forEach(row => {
-            if (row.every(val => val === userId)) {
-                return true;
-            }
-        });
+        let found = tiles.some(row => row.every(val => val === userId));
+        if (found) {
+            return true;
+        }
 
         cols = [
             [
-                board[0][0],
-                board[0][1],
-                board[0][2],
+                tiles[0][0],
+                tiles[1][0],
+                tiles[2][0],
             ],
             [
-                board[1][0],
-                board[1][1],
-                board[1][2],
+                tiles[0][1],
+                tiles[1][1],
+                tiles[2][1],
             ],
             [
-                board[2][0],
-                board[2][1],
-                board[2][2],
+                tiles[0][2],
+                tiles[1][2],
+                tiles[2][2],
             ],
         ];
 
-        cols.forEach(col => {
-            if (col.every(val => val === userId)) {
-                return true;
-            }
-        });
+        found = cols.some(col => col.every(val => val === userId));
+        if (found) {
+            return true;
+        }
 
         crosses = [
             [
-                board[0][0],
-                board[1][1],
-                board[2][2]
+                tiles[0][0],
+                tiles[1][1],
+                tiles[2][2]
             ],
             [
-                board[0][2],
-                board[1][1],
-                board[2][0]
+                tiles[0][2],
+                tiles[1][1],
+                tiles[2][0]
             ]
         ];
     
-        crosses.forEach(cross => {
-            if (cross.every(val => val === userId)) {
-                return true;
-            }
-        });
+        found = crosses.some(cross => cross.every(val => val === userId));
+        if (found) {
+            return true;
+        }
 
         return false;
     }
 
-    return { tiles, markTile }
+    return { tiles, checkWinCondition };
 }
 
-function gameState() {
-    board = createBoard();
-    users = [];
+function state() {
+    const board = createBoard();
+    const renderer = createRenderer(markTile);
+    renderer.drawInit();
+
+    const users = [];
+
 
     const uf = function userFactory(name) {
         let id = 1;
@@ -103,5 +86,73 @@ function gameState() {
 
         users.push(uf.newUser(name));
     }
+
+    function markTile(row, col, u) {
+        let user = {name: "Bob", id: 2};
+        const tileValue = tiles[row][col];
+        const emptyTileValue = 0;
+
+        if (tileValue === user.id) {
+            return "you already marked this tile";
+        }
+
+        if (tileValue !== emptyTileValue) {
+            return "this tile has been marked by a different player";
+        }
+
+        tiles[row][col] = user.id;
+        renderer.markTile(row, col, user.id);
+        win = board.checkWinCondition(user.id);
+        if (win) {
+            return `${user.name} has won!`;
+        }
+        return "update successful";
+    }
+
+    return {addUserToBoard, markTile};
 }
 
+
+function createRenderer(markTileCallback) {
+    function drawInit() {
+        const tileElems = []
+        for(let i = 0;i < 9; i++) {
+            let col = i % 3;
+            let row = Math.floor(i / 3)
+            tileElems.push(makeTile(row, col));
+        }            
+
+        tileElems.forEach(el => el.addEventListener("click", (e) => {
+            let col = Number(e.target.attributes["col"].nodeValue)
+            let row = Number(e.target.attributes["row"].nodeValue)
+            let result = markTileCallback(row, col, 1)
+            console.log(result);
+            
+            
+        }));
+        const gridElem = document.querySelector(".game-board");
+        
+        tileElems.forEach(el => gridElem.appendChild(el));
+    }
+
+    function makeTile(row, col) {
+        const tile = document.createElement("div");
+        tile.classList.add("tile", "unmarked");
+        tile.setAttribute("row", row);
+        tile.setAttribute("col", col);
+
+        return tile;
+    }
+
+    function markTile(row, col, user_id) {
+        const elem = document.querySelector(`.tile[row="${row}"][col="${col}"]`);
+        elem.classList.replace("unmarked", `marked-player-${user_id}`)
+    }
+
+
+    return {drawInit, markTile}
+}
+
+const dialog = document.getElementById("register-players-dialog");
+dialog.showModal();
+x = state();

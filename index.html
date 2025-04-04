@@ -1,14 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
     <title>TicTacToe</title>
 </head>
+
 <body>
-    
+    <dialog id="register-players-dialog">
+        <form action="">
+            <div class="input-box">
+                <label for="player-1-name">Player 1 Name: </label>
+                <input type="text" name="player-1-name" id="player-1-name">
+            </div>
+            <div class="input-box">
+                <label for="player-2-name">Player 2 Name: </label>
+                <input type="text" name="player-2-name" id="player-2-name">
+            </div>
+        </form>
+    </dialog>
+    <div class="container">
+        <div class="players-container">
+            <div class="player player-1">
+                <p>Bob</p>
+            </div>
+            <div class="player player-2">
+                <p>Sally</p>
+            </div>
+        </div>
+        <div class="game-board">
+            <!-- <div class="tile marked1" row="0" col="1"> </div>
+            <div class="tile marked2"></div>
+            <div class="tile unmarked"></div>
+            <div class="tile unmarked"></div>
+            <div class="tile unmarked"></div>
+            <div class="tile unmarked"></div>
+            <div class="tile unmarked"></div>
+            <div class="tile unmarked"></div>
+            <div class="tile unmarked"></div> -->
+        </div>
+    </div>
+
 
     <script src="src/tictactoe.js"></script>
 </body>
+
 </html>

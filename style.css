@@ -1,0 +1,108 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+
+#root, #__next {
+    isolation: isolate;
+}
+
+:root {
+    --player1-color: rgb(19, 107, 78);
+    --player2-color: rgb(245, 238, 137);
+}
+
+body {
+    background-color: rgb(0, 0, 29);
+}
+
+.container {
+    width: 60vw;
+    margin: auto;
+}
+
+.players-container {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    margin-top: 1rem;
+    justify-content: space-between;
+}
+
+.player {
+    width: 40%;
+    /* gap: 10px; */
+    height: 100px;
+    border-radius: 10px;
+    font-size: 24pt;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    text-align: center;
+    /* margin: auto; */
+}
+
+.player.player-1 {
+    background-color: var(--player1-color);
+    color: #fafafa
+}
+
+.player.player-2 {
+    background-color: var(--player2-color);
+    justify-self: flex-end; 
+}
+
+.game-board {
+    /* max-width: 100%; */
+    max-width: fit-content;
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    grid-template-rows: repeat(3, 200px);
+    margin: auto;
+    margin-top: 10vh;
+    background-color: rgb(209, 208, 208);
+    border-radius: 20px;
+    gap: 5px;
+}
+
+.tile {
+    height: 200px;
+    width: 200px;
+    color: #fafafa;
+}
+
+.tile.unmarked {
+    background-color: rgb(83, 12, 150);
+}
+
+.tile.marked-player-1 {
+    background-color: var(--player1-color);
+}
+
+.tile.marked-player-2 {
+    background-color: var(--player2-color);
+    color: black;
+}
