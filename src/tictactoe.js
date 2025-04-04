@@ -195,3 +195,4 @@ function createRenderer(markTileCallback) {
 // dialog.showModal();
 x = state();
 x.init();
+x.registerPlayers();
