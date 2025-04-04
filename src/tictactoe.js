@@ -8,7 +8,11 @@ function createBoard() {
         [0, 0, 0],
     ];
 
-
+    /**
+     * 
+     * @param {number} userId 
+     * @returns {boolean}
+     */
     function checkWinCondition(userId) {
         let found = tiles.some(row => row.every(val => val === userId));
         if (found) {
@@ -50,7 +54,7 @@ function createBoard() {
                 tiles[2][0]
             ]
         ];
-    
+
         found = crosses.some(cross => cross.every(val => val === userId));
         if (found) {
             return true;
@@ -65,10 +69,12 @@ function createBoard() {
 function state() {
     const board = createBoard();
     const renderer = createRenderer(markTile);
-    renderer.drawInit();
 
     const users = [];
 
+    function init() {
+        renderer.drawInit();
+    }
 
     const uf = function userFactory(name) {
         let id = 1;
@@ -88,7 +94,7 @@ function state() {
     }
 
     function markTile(row, col, u) {
-        let user = {name: "Bob", id: 2};
+        let user = { name: "Bob", id: 2 };
         const tileValue = tiles[row][col];
         const emptyTileValue = 0;
 
@@ -109,29 +115,59 @@ function state() {
         return "update successful";
     }
 
-    return {addUserToBoard, markTile};
+
+    function registerPlayers() {
+        const dialog = document.getElementById("register-players-dialog");
+        dialog.showModal();
+
+        const dialogBtn = document.querySelector("#register-players-dialog button");
+        dialogBtn.addEventListener("click", () => {
+            const x = document.getElementById("player-1-name").value;
+            const y = document.getElementById("player-2-name").value;
+
+            savePlayerNames(x, y);
+            addUserToBoard(x);
+            addUserToBoard(y);
+            dialog.close();
+        });
+
+        function savePlayerNames(p1Name, p2Name) {
+            const p1NameBox = document.querySelector(".player-1 > p");
+            p1NameBox.textContent = p1Name;
+
+            const p2NameBox = document.querySelector(".player-2 > p");
+            p2NameBox.textContent = p2Name;
+        }
+
+    }
+
+    return { markTile, init, registerPlayers };
 }
 
-
+/**
+ * 
+ * @param {function} markTileCallback 
+ * @returns 
+ */
 function createRenderer(markTileCallback) {
     function drawInit() {
         const tileElems = []
-        for(let i = 0;i < 9; i++) {
+        for (let i = 0; i < 9; i++) {
             let col = i % 3;
             let row = Math.floor(i / 3)
             tileElems.push(makeTile(row, col));
-        }            
+        }
 
         tileElems.forEach(el => el.addEventListener("click", (e) => {
             let col = Number(e.target.attributes["col"].nodeValue)
             let row = Number(e.target.attributes["row"].nodeValue)
             let result = markTileCallback(row, col, 1)
             console.log(result);
-            
-            
+
+
         }));
         const gridElem = document.querySelector(".game-board");
-        
+
         tileElems.forEach(el => gridElem.appendChild(el));
     }
 
@@ -150,9 +186,12 @@ function createRenderer(markTileCallback) {
     }
 
 
-    return {drawInit, markTile}
+    return { drawInit, markTile }
 }
 
-const dialog = document.getElementById("register-players-dialog");
-dialog.showModal();
+
+
+// const dialog = document.getElementById("register-players-dialog");
+// dialog.showModal();
 x = state();
+x.init();

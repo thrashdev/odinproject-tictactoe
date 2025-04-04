@@ -38,6 +38,29 @@ body {
     background-color: rgb(0, 0, 29);
 }
 
+dialog {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#register-players-dialog {
+    padding: 2rem;
+}
+
+#register-players-dialog button {
+    margin-top: 1rem;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+
 .container {
     width: 60vw;
     margin: auto;
