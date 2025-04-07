@@ -43,10 +43,30 @@ dialog {
     top: 25%;
     left: 50%;
     transform: translate(-50%);
+    padding: 2rem;
 }
 
-#register-players-dialog {
-    padding: 2rem;
+.win-modal-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.modal-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.modal-controls button {
+    padding: 5px 10px;
+}
+
+#win-message {
+    margin: 0 auto;
+}
+
+#win-message em {
+    padding: 0.1rem 1rem;
 }
 
 #register-players-dialog button {
@@ -88,12 +108,22 @@ dialog {
     /* margin: auto; */
 }
 
-.player.player-1 {
+/* .player.player-1 {
+    background-color: var(--player1-color);
+    color: #fafafa
+} */
+
+.player-1 {
     background-color: var(--player1-color);
     color: #fafafa
 }
 
-.player.player-2 {
+/* .player.player-2 {
+    background-color: var(--player2-color);
+    justify-self: flex-end; 
+} */
+
+.player-2 {
     background-color: var(--player2-color);
     justify-self: flex-end; 
 }
